@@ -21,25 +21,36 @@ const BrowseBooks = () => {
   );
 
   if (status === "loading") {
-    return <p>Loading books...</p>;
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <p className="text-xl font-semibold text-blue-600">Loading books...</p>
+      </div>
+    );
   }
 
   if (status === "failed") {
-    return <p>Failed to load books. Please try again later.</p>;
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <p className="text-xl font-semibold text-red-600">
+          Failed to load books. Please try again later.
+        </p>
+      </div>
+    );
   }
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
-      <h2 className="text-3xl font-bold text-blue-600 mb-6 text-center">
-        Browse Books
+      {/* Heading */}
+      <h2 className="text-4xl font-extrabold text-indigo-700 text-center mb-8">
+        Browse Our Collection
       </h2>
 
-      {/* Search Input */}
-      <div className="mb-6">
+      {/* Search Bar */}
+      <div className="flex justify-center mb-8">
         <input
           type="text"
-          placeholder="Search by title or subtitle"
-          className="border border-gray-300 rounded-lg p-3 w-full focus:ring-2 focus:ring-blue-400 focus:outline-none"
+          placeholder="Search books by title or subtitle..."
+          className="border border-gray-300 rounded-lg p-3 w-full max-w-md focus:ring-2 focus:ring-indigo-400 focus:outline-none shadow-md"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
@@ -51,19 +62,25 @@ const BrowseBooks = () => {
           filteredBooks.map((book) => (
             <div
               key={book.isbn13}
-              className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
+              className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden"
             >
               <img
                 src={book.image}
                 alt={book.title}
-                className="w-full h-48 object-cover rounded-t-lg"
+                className="w-full h-60 object-cover"
               />
-              <div className="p-4">
-                <h3 className="text-lg font-bold">{book.title}</h3>
-                <p className="text-sm text-gray-600">{book.subtitle}</p>
+              <div className="p-4 flex flex-col justify-between h-full">
+                <div>
+                  <h3 className="text-lg font-bold text-gray-800 truncate">
+                    {book.title}
+                  </h3>
+                  <p className="text-sm text-gray-500 truncate mt-1">
+                    {book.subtitle}
+                  </p>
+                </div>
                 <Link
                   to={`/book/${book.isbn13}`}
-                  className="block mt-4 text-center bg-blue-800 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+                  className="mt-4 bg-indigo-600 text-white px-4 py-2 text-center rounded-lg hover:bg-indigo-500 transition-all"
                 >
                   View Details
                 </Link>
@@ -71,7 +88,11 @@ const BrowseBooks = () => {
             </div>
           ))
         ) : (
-          <p>No books found.</p>
+          <div className="text-center col-span-full">
+            <p className="text-lg font-semibold text-gray-700">
+              No books found. Try a different search term.
+            </p>
+          </div>
         )}
       </div>
     </div>
